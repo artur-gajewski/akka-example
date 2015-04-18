@@ -18,7 +18,7 @@ class MessageActor extends Actor {
 }
 
 /**
- * Send 500,000 messages with five workers layed out as Round-robin
+ * Send 50 messages with five workers layed out as Round-robin
  */
 object Main extends App {
   val system = ActorSystem("ActorSystem")
@@ -27,7 +27,7 @@ object Main extends App {
     Props[MessageActor].withRouter(RoundRobinRouter(5))
   )
 
-  for (i <- 1 to 10) {
+  for (i <- 1 to 50) {
     mailbox ! MessageActor.Message("Hello world #" + i)
   }
 }
