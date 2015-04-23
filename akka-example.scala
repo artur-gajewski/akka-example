@@ -1,5 +1,7 @@
 import akka.actor._
 import akka.routing._
+import scala.concurrent._
+import scala.io.Source
 
 /**
  * Companion object that holds a message
@@ -13,7 +15,12 @@ object MessageActor {
  */
 class MessageActor extends Actor {
   def receive = {
-    case MessageActor.Message(message: String) => println(s"Message from ${self.path}: ${message}")
+    case MessageActor.Message(message: String) => {
+      println(s"Sent a message to website with worker ${self.path}: ${message}")
+      val html = Source.fromURL("http://www.arturgajewski.com/wait.php?message=" + message)
+      val s = html.mkString
+      println(s"Response from website for worker ${self.path} with message ${message}: ${s}")
+    }
   }
 }
 
@@ -27,7 +34,9 @@ object Main extends App {
     Props[MessageActor].withRouter(RoundRobinRouter(5))
   )
 
-  for (i <- 1 to 50) {
-    mailbox ! MessageActor.Message("Hello world #" + i)
+  for (i <- 1 to 10) {
+    mailbox ! MessageActor.Message("Hello-" + i)
   }
+
+
 }
