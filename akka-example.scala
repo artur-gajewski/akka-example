@@ -24,7 +24,7 @@ class MessageActor extends Actor {
 }
 
 /**
- * Send 50 messages with five workers layed out as Round-robin
+ * Send 10 messages with five workers layed out as Round-robin
  */
 object Main extends App {
   val system = ActorSystem("ActorSystem")
