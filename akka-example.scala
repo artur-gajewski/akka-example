@@ -1,6 +1,5 @@
 import akka.actor._
 import akka.routing._
-import scala.concurrent._
 import scala.io.Source
 
 /**
@@ -37,6 +36,4 @@ object Main extends App {
   for (i <- 1 to 10) {
     mailbox ! MessageActor.Message("Hello-" + i)
   }
-
-
 }
